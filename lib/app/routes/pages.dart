@@ -1,4 +1,6 @@
 import 'package:fuse_walls/app/modules/category_menu/category_menu.dart';
+import 'package:fuse_walls/app/modules/preview_wall/binding.dart';
+import 'package:fuse_walls/app/modules/preview_wall/preview_wall.dart';
 import 'package:fuse_walls/app/modules/wallpapers_gallery/binding.dart';
 import 'package:fuse_walls/app/modules/wallpapers_gallery/wallpapers_gallery.dart';
 import 'package:fuse_walls/app/routes/routes.dart';
@@ -10,6 +12,11 @@ class AppPages {
     GetPage(
         name: Routes.GALLERY,
         page: () => const WallpapersGallery(),
-        binding: WallpapersGalleryBinding())
+        binding: WallpapersGalleryBinding()),
+    GetPage(name: Routes.MENU, page: () => const CategoryMenu()),
+    GetPage(
+        name: Routes.PREVIEW,
+        page: () => const PreviewWall(),
+        binding: PreviewWallBinding()),
   ];
 }

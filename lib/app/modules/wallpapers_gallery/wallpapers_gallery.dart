@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fuse_walls/app/modules/wallpapers_gallery/controller.dart';
+import 'package:fuse_walls/app/routes/routes.dart';
 import 'package:get/get.dart';
 import 'package:octo_image/octo_image.dart';
 
@@ -84,7 +85,12 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                                   Material(
                                     color: Colors.transparent,
                                     child: InkWell(
-                                      onTap: () async {},
+                                      onTap: () async {
+                                        Get.toNamed(Routes.PREVIEW, arguments: {
+                                          "path":
+                                              _.wallsTobeDisplayed[index].path
+                                        });
+                                      },
                                     ),
                                   )
                                 ],

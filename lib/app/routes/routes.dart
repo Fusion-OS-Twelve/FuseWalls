@@ -3,4 +3,5 @@
 abstract class Routes {
   static const MENU = '/menu';
   static const GALLERY = '/gallery';
+  static const PREVIEW = '/preview';
 }
