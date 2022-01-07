@@ -1,0 +1,1 @@
+enum WallType { anime, material }
