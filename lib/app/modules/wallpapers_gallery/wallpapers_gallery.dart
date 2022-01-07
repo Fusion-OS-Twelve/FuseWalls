@@ -73,6 +73,7 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                                 fit: StackFit.expand,
                                 children: [
                                   Image(
+                                    filterQuality: FilterQuality.none,
                                     image: AssetImage(controller
                                         .wallsTobeDisplayed[index].path),
                                     fit: BoxFit.cover,
