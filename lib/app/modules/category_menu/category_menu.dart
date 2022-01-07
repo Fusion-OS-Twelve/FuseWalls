@@ -1,4 +1,3 @@
-import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:fuse_walls/app/data/enums/wall_enums.dart';
 

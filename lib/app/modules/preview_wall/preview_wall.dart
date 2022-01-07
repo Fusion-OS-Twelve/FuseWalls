@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:octo_image/octo_image.dart';
-import 'package:pinch_zoom_image_last/pinch_zoom_image_last.dart';
 
 import 'controller.dart';
 
