@@ -28,7 +28,6 @@ class WallpapersGalleryController extends GetxController {
   @override
   void onClose() {
     gridController.dispose();
-    wallsTobeDisplayed.clear();
     super.onClose();
   }
 }

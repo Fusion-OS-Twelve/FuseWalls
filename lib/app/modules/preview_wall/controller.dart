@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
+import 'package:external_path/external_path.dart';
 import 'package:fuse_walls/app/data/services/wall_services.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -30,6 +30,7 @@ class PreviewWallController extends GetxController {
     if (await Permission.storage.status.isGranted) {
       WallpaperManagerFlutter().setwallpaperfromFile(wallFile, location);
     }
+    Get.back();
   }
 
   void shareWallpaper() {
@@ -38,9 +39,10 @@ class PreviewWallController extends GetxController {
 
   void copyToDownloadsFoler() async {
     await Permission.storage.request();
-    Directory? tempDir = await DownloadsPathProvider.downloadsDirectory;
-    String tempPath = tempDir!.path;
-    await wallFile.copy("$tempPath/${path.split('/').last}");
+    var downloadPath = await ExternalPath.getExternalStoragePublicDirectory(
+        ExternalPath.DIRECTORY_DOWNLOADS);
+
+    await wallFile.copy("$downloadPath/${path.split('/').last}");
     Get.showSnackbar(const GetSnackBar(
       title: "Success",
       duration: Duration(seconds: 2),

@@ -30,6 +30,7 @@ class CategoryCard extends StatelessWidget {
             Positioned(
               bottom: 0,
               child: Blur(
+                alignment: Alignment.centerRight,
                 blur: 4,
                 blurColor: const Color(0xFFBBBBBB),
                 colorOpacity: 0.1,
@@ -37,17 +38,16 @@ class CategoryCard extends StatelessWidget {
                   height: height * 0.08,
                   width: width,
                 ),
-              ),
-            ),
-            Positioned(
-              bottom: 5,
-              right: 20,
-              child: Text(
-                wallType == WallType.anime ? "Anime" : "Material",
-                style: const TextStyle(
-                  fontFamily: "Satisfy",
-                  color: Colors.black,
-                  fontSize: 32.0,
+                overlay: Padding(
+                  padding: const EdgeInsets.only(right: 40.0),
+                  child: Text(
+                    wallType == WallType.anime ? "Anime" : "Material",
+                    style: const TextStyle(
+                      fontFamily: "Satisfy",
+                      color: Colors.black,
+                      fontSize: 32.0,
+                    ),
+                  ),
                 ),
               ),
             ),
