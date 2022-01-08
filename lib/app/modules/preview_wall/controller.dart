@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:downloads_path_provider_28/downloads_path_provider_28.dart';
 import 'package:fuse_walls/app/data/services/wall_services.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';

@@ -1,8 +1,6 @@
 import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:octo_image/octo_image.dart';
-import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
 
 import 'controller.dart';
 
@@ -124,7 +122,6 @@ class PreviewWall extends GetView<PreviewWallController> {
                         child: TextButton(
                             onPressed: () {
                               controller.copyToDownloadsFoler();
-                              
                             },
                             style: TextButton.styleFrom(
                                 shape: const CircleBorder()),
