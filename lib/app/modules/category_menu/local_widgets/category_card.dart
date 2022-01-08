@@ -1,6 +1,5 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
-import 'package:fuse_walls/app/data/enums/wall_enums.dart';
 import 'package:fuse_walls/app/routes/routes.dart';
 import 'package:get/get.dart';
 
