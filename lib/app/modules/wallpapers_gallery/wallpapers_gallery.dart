@@ -1,3 +1,4 @@
+import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:fuse_walls/app/modules/wallpapers_gallery/controller.dart';
 import 'package:fuse_walls/app/routes/routes.dart';
@@ -13,12 +14,67 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: Stack(
           children: [
+            NotificationListener(
+                onNotification: (OverscrollIndicatorNotification? overscroll) {
+                  overscroll!.disallowIndicator();
+                  return true;
+                },
+                child: GetX<WallpapersGalleryController>(
+                  initState: (state) {
+                    Get.find<WallpapersGalleryController>();
+                  },
+                  builder: (_) {
+                    return GridView.builder(
+                      padding: const EdgeInsets.only(
+                          top: 120, left: 20, right: 20, bottom: 20),
+                      controller: controller.gridController,
+                      itemCount: _.wallsTobeDisplayed.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 14,
+                              childAspectRatio: 0.6,
+                              crossAxisCount: 2),
+                      itemBuilder: (context, index) {
+                        return ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: Stack(
+                              fit: StackFit.expand,
+                              children: [
+                                OctoImage(
+                                  placeholderBuilder: OctoPlaceholder
+                                      .circularProgressIndicator(),
+                                  filterQuality: FilterQuality.none,
+                                  image: AssetImage(controller
+                                      .wallsTobeDisplayed[index].thumbPath),
+                                  fit: BoxFit.cover,
+                                ),
+                                Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      Get.toNamed(Routes.PREVIEW, arguments: {
+                                        "path": _.wallsTobeDisplayed[index].path
+                                      });
+                                    },
+                                  ),
+                                )
+                              ],
+                            ));
+                      },
+                    );
+                  },
+                )),
+            Obx(() => Blur(
+                blur: controller.scrollOffset.value == 0 ? 0 : 8,
+                child: Container(
+                  height: 120,
+                ))),
             Container(
-              height: height * 0.15,
-              padding: const EdgeInsets.symmetric(vertical: 40),
-              alignment: Alignment.topCenter,
+              height: 120,
+              alignment: Alignment.center,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -46,60 +102,6 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                 ],
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: height * 0.85,
-              child: NotificationListener(
-                  onNotification:
-                      (OverscrollIndicatorNotification? overscroll) {
-                    overscroll!.disallowIndicator();
-                    return true;
-                  },
-                  child: GetX<WallpapersGalleryController>(
-                    initState: (state) {
-                      Get.find<WallpapersGalleryController>();
-                    },
-                    builder: (_) {
-                      return GridView.builder(
-                        itemCount: _.wallsTobeDisplayed.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                mainAxisSpacing: 20,
-                                crossAxisSpacing: 14,
-                                childAspectRatio: 0.6,
-                                crossAxisCount: 2),
-                        itemBuilder: (context, index) {
-                          return ClipRRect(
-                              borderRadius: BorderRadius.circular(16),
-                              child: Stack(
-                                fit: StackFit.expand,
-                                children: [
-                                  OctoImage(
-                                    placeholderBuilder: OctoPlaceholder
-                                        .circularProgressIndicator(),
-                                    filterQuality: FilterQuality.none,
-                                    image: AssetImage(controller
-                                        .wallsTobeDisplayed[index].path),
-                                    fit: BoxFit.cover,
-                                  ),
-                                  Material(
-                                    color: Colors.transparent,
-                                    child: InkWell(
-                                      onTap: () async {
-                                        Get.toNamed(Routes.PREVIEW, arguments: {
-                                          "path":
-                                              _.wallsTobeDisplayed[index].path
-                                        });
-                                      },
-                                    ),
-                                  )
-                                ],
-                              ));
-                        },
-                      );
-                    },
-                  )),
-            )
           ],
         ),
       ),
