@@ -43,7 +43,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.fusionos.fusewalls.fuse_walls"
+        applicationId "com.fusionos.fusewalls"
         minSdkVersion 29
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()

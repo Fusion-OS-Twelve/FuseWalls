@@ -1,4 +1,4 @@
-package com.fusionos.fusewalls.fuse_walls
+package com.fusionos.fusewalls
 
 import io.flutter.embedding.android.FlutterActivity
 
