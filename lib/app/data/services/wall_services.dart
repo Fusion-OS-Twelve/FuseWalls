@@ -10,9 +10,16 @@ Future<dynamic> fillWallpapersList(WallType wallType) async {
   String wallpaperString = await getAllWallpapers();
   var wallpaperJson = json.decode(wallpaperString);
   List listWalls = <WallModel>[];
+
   wallpaperJson.keys
-      .where((String key) => key.startsWith('assets/walls/$type'))
-      .forEach(
-          (path) => {listWalls.add(WallModel(path: path, walltype: wallType))});
+      .where((String key) => key.contains(
+          RegExp('assets/walls/$type/' r'[a-zA-Z]+_[0-9]+\.[a-zA-Z]')))
+      .forEach((path) => {
+            listWalls.add(WallModel(
+                path: path,
+                walltype: wallType,
+                thumbPath: "assets/walls/$type/thumb/" +
+                    RegExp(r"[^/]+(?=/$|$)").stringMatch(path).toString()))
+          });
   return listWalls;
 }
