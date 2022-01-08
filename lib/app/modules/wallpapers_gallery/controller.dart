@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fuse_walls/app/data/enums/wall_enums.dart';
 import 'package:fuse_walls/app/data/services/wall_services.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +18,7 @@ class WallpapersGalleryController extends GetxController {
       scrollOffset.value = gridController.position.pixels;
     });
     var args = Get.arguments;
-    title = args["wallType"] == WallType.anime ? "Anime" : "Material";
+    title = args["wallType"];
     wallsTobeDisplayed.value = await fillWallpapersList(args["wallType"]);
     // action(args);
     super.onInit();

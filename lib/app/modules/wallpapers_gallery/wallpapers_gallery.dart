@@ -43,7 +43,7 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                               top: 80, left: 20, right: 20, bottom: 20),
                           controller: controller.gridController,
                           itemCount: _.wallsTobeDisplayed.length,
-                          physics: BouncingScrollPhysics(),
+                          physics: const BouncingScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   mainAxisSpacing: 20,

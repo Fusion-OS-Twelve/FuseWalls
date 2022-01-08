@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 class CategoryCard extends StatelessWidget {
   const CategoryCard({Key? key, required this.wallType}) : super(key: key);
 
-  final WallType wallType;
+  final String wallType;
   static const String thumbnailUri = "assets/walls/category_thumb/";
   @override
   Widget build(BuildContext context) {
@@ -22,10 +22,10 @@ class CategoryCard extends StatelessWidget {
           alignment: Alignment.center,
           children: <Widget>[
             Image(
-              image: AssetImage(thumbnailUri +
-                  (wallType == WallType.anime ? "anime.png" : "material.png")),
+              image:
+                  AssetImage(thumbnailUri + (wallType.toLowerCase() + ".png")),
               height: height * 0.4,
-              fit: BoxFit.cover,
+              fit: BoxFit.fitWidth,
             ),
             Positioned(
               bottom: 0,
@@ -41,7 +41,7 @@ class CategoryCard extends StatelessWidget {
                 overlay: Padding(
                   padding: const EdgeInsets.only(right: 40.0),
                   child: Text(
-                    wallType == WallType.anime ? "Anime" : "Material",
+                    wallType,
                     style: const TextStyle(
                       fontFamily: "Satisfy",
                       color: Colors.black,

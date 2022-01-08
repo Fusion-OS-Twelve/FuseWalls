@@ -1,10 +1,13 @@
+import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fuse_walls/app/data/enums/wall_enums.dart';
+import 'package:fuse_walls/app/modules/category_menu/controller.dart';
+import 'package:get/get.dart';
 
 import 'local_widgets/category_card.dart';
 
-class CategoryMenu extends StatelessWidget {
+class CategoryMenu extends GetView<CategoryMenuController> {
   const CategoryMenu({Key? key}) : super(key: key);
 
   @override
@@ -17,43 +20,52 @@ class CategoryMenu extends StatelessWidget {
           systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor),
       child: Scaffold(
         body: SafeArea(
-          child: ListView(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
+          child: Stack(
             children: [
-              Container(
-                padding: const EdgeInsets.symmetric(vertical: 40),
-                alignment: Alignment.topCenter,
-                child: const Text(
-                  "FuseWalls.",
-                  textAlign: TextAlign.center,
-                  style:
-                      TextStyle(fontFamily: "Satisfy", fontSize: 32, shadows: [
-                    Shadow(
-                      offset: Offset(0, 4.0),
-                      blurRadius: 4.0,
-                      color: Color(0x25000000),
-                    ),
-                  ]),
-                ),
-              ),
               NotificationListener(
                 onNotification: (OverscrollIndicatorNotification? overscroll) {
                   overscroll!.disallowIndicator();
                   return true;
                 },
                 child: ListView(
+                  controller: controller.categoryScrollController,
+                  physics: const BouncingScrollPhysics(),
                   shrinkWrap: true,
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.only(
+                      left: 20, right: 20, top: 80, bottom: 20),
                   children: [
                     const CategoryCard(wallType: WallType.anime),
                     SizedBox(
                       height: height * 0.03,
                     ),
-                    const CategoryCard(wallType: WallType.material)
+                    const CategoryCard(wallType: WallType.material),
+                    SizedBox(
+                      height: height * 0.03,
+                    ),
+                    const CategoryCard(wallType: WallType.liquid)
                   ],
                 ),
-              )
+              ),
+              Obx(() => Blur(
+                  blurColor: Theme.of(context).scaffoldBackgroundColor,
+                  blur: controller.scrollOffset.value == 0 ? 0 : 8,
+                  overlay: const Text(
+                    "FuseWalls",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontFamily: "Satisfy",
+                        fontSize: 32,
+                        shadows: [
+                          Shadow(
+                            offset: Offset(0, 4.0),
+                            blurRadius: 4.0,
+                            color: Color(0x25000000),
+                          ),
+                        ]),
+                  ),
+                  child: Container(
+                    height: 80,
+                  ))),
             ],
           ),
         ),
