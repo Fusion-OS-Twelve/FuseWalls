@@ -1,8 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/services.dart';
 import 'package:fuse_walls/app/data/enums/wall_enums.dart';
 import 'package:fuse_walls/app/data/models/wall_model.dart';
 import 'package:fuse_walls/app/data/providers/wall_provider.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future<dynamic> fillWallpapersList(WallType wallType) async {
   String type = wallType == WallType.anime ? "anime" : "material";
@@ -22,4 +25,15 @@ Future<dynamic> fillWallpapersList(WallType wallType) async {
                     RegExp(r"[^/]+(?=/$|$)").stringMatch(path).toString()))
           });
   return listWalls;
+}
+
+Future<File> getImageFileFromAssets(String path) async {
+  final byteData = await rootBundle.load(path);
+  final wallName = path.split('/').last;
+
+  final file = File('${(await getTemporaryDirectory()).path}/$wallName');
+  await file.writeAsBytes(byteData.buffer
+      .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+  return file;
 }
