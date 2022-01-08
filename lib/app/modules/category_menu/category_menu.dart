@@ -16,7 +16,6 @@ class CategoryMenu extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: height * 0.15,
               padding: const EdgeInsets.symmetric(vertical: 40),
               alignment: Alignment.topCenter,
               child: const Text(
@@ -31,23 +30,21 @@ class CategoryMenu extends StatelessWidget {
                 ]),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              height: height * 0.85,
-              child: NotificationListener(
-                onNotification: (OverscrollIndicatorNotification? overscroll) {
-                  overscroll!.disallowIndicator();
-                  return true;
-                },
-                child: ListView(
-                  children: [
-                    const CategoryCard(wallType: WallType.anime),
-                    SizedBox(
-                      height: height * 0.03,
-                    ),
-                    const CategoryCard(wallType: WallType.material)
-                  ],
-                ),
+            NotificationListener(
+              onNotification: (OverscrollIndicatorNotification? overscroll) {
+                overscroll!.disallowIndicator();
+                return true;
+              },
+              child: ListView(
+                shrinkWrap: true,
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                children: [
+                  const CategoryCard(wallType: WallType.anime),
+                  SizedBox(
+                    height: height * 0.03,
+                  ),
+                  const CategoryCard(wallType: WallType.material)
+                ],
               ),
             )
           ],
