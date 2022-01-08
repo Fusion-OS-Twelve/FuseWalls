@@ -13,7 +13,9 @@ class CategoryMenu extends StatelessWidget {
 
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
           children: [
             Container(
               padding: const EdgeInsets.symmetric(vertical: 40),

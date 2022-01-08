@@ -18,54 +18,49 @@ class CategoryCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(20),
       child: AspectRatio(
         aspectRatio: 285 / 228,
-        child: SizedBox(
-          height: height * 0.4,
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Image(
-                image: AssetImage(thumbnailUri +
-                    (wallType == WallType.anime
-                        ? "anime.png"
-                        : "material.png")),
-                height: height * 0.4,
-                fit: BoxFit.cover,
-              ),
-              Positioned(
-                bottom: 0,
-                child: Blur(
-                  blur: 4,
-                  blurColor: const Color(0xFFBBBBBB),
-                  colorOpacity: 0.1,
-                  child: SizedBox(
-                    height: height * 0.08,
-                    width: width,
-                  ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Image(
+              image: AssetImage(thumbnailUri +
+                  (wallType == WallType.anime ? "anime.png" : "material.png")),
+              height: height * 0.4,
+              fit: BoxFit.cover,
+            ),
+            Positioned(
+              bottom: 0,
+              child: Blur(
+                blur: 4,
+                blurColor: const Color(0xFFBBBBBB),
+                colorOpacity: 0.1,
+                child: SizedBox(
+                  height: height * 0.08,
+                  width: width,
                 ),
               ),
-              Positioned(
-                bottom: 5,
-                right: 20,
-                child: Text(
-                  wallType == WallType.anime ? "Anime" : "Material",
-                  style: const TextStyle(
-                    fontFamily: "Satisfy",
-                    color: Colors.black,
-                    fontSize: 32.0,
-                  ),
+            ),
+            Positioned(
+              bottom: 5,
+              right: 20,
+              child: Text(
+                wallType == WallType.anime ? "Anime" : "Material",
+                style: const TextStyle(
+                  fontFamily: "Satisfy",
+                  color: Colors.black,
+                  fontSize: 32.0,
                 ),
               ),
-              Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () {
-                    Get.toNamed(Routes.GALLERY,
-                        arguments: {"wallType": wallType});
-                  },
-                ),
+            ),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () {
+                  Get.toNamed(Routes.GALLERY,
+                      arguments: {"wallType": wallType});
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
