@@ -8,4 +8,10 @@ class PreviewWallController extends GetxController {
     path.value = args["path"];
     super.onInit();
   }
+
+  @override
+  void onClose() {
+    path.value = "";
+    super.onClose();
+  }
 }

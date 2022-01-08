@@ -10,8 +10,6 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
 
   @override
   Widget build(BuildContext context) {
-    double height =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
       body: SafeArea(
         child: Stack(
