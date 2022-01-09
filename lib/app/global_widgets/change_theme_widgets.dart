@@ -5,7 +5,7 @@ import 'package:fuse_walls/app/data/providers/theme_provider.dart';
 import 'package:fuse_walls/app/data/services/theme_services.dart';
 import 'package:get/get.dart';
 
-Widget changeThemeWidget(context, controller) {
+Widget changeThemeWidget(context) {
   return GestureDetector(
       onTap: () => showAdaptiveActionSheet(
               context: context,
@@ -15,14 +15,12 @@ Widget changeThemeWidget(context, controller) {
                     title: const Text("Light Mode"),
                     onPressed: () {
                       changeThemeMode(ThemeMode.light);
-                      controller.getAccetColor;
                       Get.back();
                     }),
                 BottomSheetAction(
                     title: const Text("Dark Mode"),
                     onPressed: () {
                       changeThemeMode(ThemeMode.dark);
-                      controller.getAccetColor;
                       Get.back();
                     })
               ]),

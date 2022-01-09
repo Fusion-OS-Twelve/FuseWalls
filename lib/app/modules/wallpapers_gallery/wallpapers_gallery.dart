@@ -101,7 +101,7 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                         Text(controller.title,
                             textAlign: TextAlign.center,
                             style: getTitleTextStyle(context)),
-                        changeThemeWidget(context, controller)
+                        changeThemeWidget(context)
                       ],
                     ),
                     child: Container(

@@ -47,7 +47,7 @@ class PreviewWall extends GetView<PreviewWallController> {
                         Text("Preview",
                             textAlign: TextAlign.center,
                             style: getTitleTextStyle(context)),
-                        changeThemeWidget(context, controller),
+                        changeThemeWidget(context),
                       ],
                     ),
                   ),
