@@ -38,20 +38,25 @@ class CategoryCard extends StatelessWidget {
                     blurColor: const Color(0xFFBBBBBB),
                     colorOpacity: 0.1,
                     child: SizedBox(
-                      height: height * 0.08,
+                      height: height * 0.07,
                       width: width,
                     ),
                   ),
                 ),
                 Positioned(
-                  bottom: 10,
-                  right: 20,
-                  child: Text(
-                    wallType,
-                    style: const TextStyle(
-                      fontFamily: "Satisfy",
-                      color: Colors.black,
-                      fontSize: 34.0,
+                  bottom: 0,
+                  right: 0,
+                  left: 0,
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 18),
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      wallType,
+                      style: const TextStyle(
+                        fontFamily: "Satisfy",
+                        color: Colors.black,
+                        fontSize: 34.0,
+                      ),
                     ),
                   ),
                 ),

@@ -86,8 +86,9 @@ class PreviewWall extends GetView<PreviewWallController> {
         onLoading: AnnotatedRegion(
           value: SystemUiOverlayStyle(
               systemNavigationBarColor: getMonetBGColor(context)),
-          child: const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+          child: Scaffold(
+            backgroundColor: getMonetBGColor(context),
+            body: const Center(child: CircularProgressIndicator()),
           ),
         ));
   }

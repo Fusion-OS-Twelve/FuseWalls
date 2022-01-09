@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fuse_walls/app/data/services/wall_services.dart';
 import 'package:get/get.dart';
 
-class WallpapersGalleryController extends GetxController {
+class WallpapersGalleryController extends GetxController with StateMixin {
   var wallsTobeDisplayed = [].obs;
   late ScrollController gridController = ScrollController();
   String title = "";
@@ -14,12 +14,14 @@ class WallpapersGalleryController extends GetxController {
 
   @override
   void onInit() async {
+    change(null, status: RxStatus.loading());
     gridController.addListener(() {
       scrollOffset.value = gridController.position.pixels;
     });
     var args = Get.arguments;
     title = args["wallType"];
     wallsTobeDisplayed.value = await fillWallpapersList(args["wallType"]);
+    change(null, status: RxStatus.success());
     // action(args);
     super.onInit();
   }

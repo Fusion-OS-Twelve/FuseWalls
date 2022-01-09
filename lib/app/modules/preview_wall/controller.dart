@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:external_path/external_path.dart';
+import 'package:flutter/material.dart';
+import 'package:fuse_walls/app/data/providers/theme_provider.dart';
 import 'package:fuse_walls/app/data/services/wall_services.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -33,9 +35,22 @@ class PreviewWallController extends GetxController with StateMixin {
   void setWallpaper({required int location}) async {
     await Permission.storage.request();
     if (await Permission.storage.status.isGranted) {
-      WallpaperManagerFlutter().setwallpaperfromFile(wallFile.value, location);
+      WallpaperManagerFlutter()
+          .setwallpaperfromFile(wallFile.value, location)
+          .then((value) {})
+          .then((value) {
+        Get.back();
+        Get.showSnackbar(GetSnackBar(
+          title: "Wallpaper set!",
+          duration: const Duration(seconds: 2),
+          backgroundColor: themeMode.value == ThemeMode.dark
+              ? Get.theme.colorScheme.primaryVariant
+              : Get.theme.colorScheme.secondary,
+          animationDuration: const Duration(milliseconds: 800),
+          message: "Wallpaper has been set",
+        ));
+      });
     }
-    Get.back();
   }
 
   void shareWallpaper() {
@@ -49,9 +64,13 @@ class PreviewWallController extends GetxController with StateMixin {
 
     await wallFile.value
         .copy("$downloadPath/${path.split('/').last}")
-        .then((value) => Get.showSnackbar(const GetSnackBar(
-              title: "Success",
-              duration: Duration(seconds: 2),
+        .then((value) => Get.showSnackbar(GetSnackBar(
+              title: "Wallpaper downloaded!",
+              duration: const Duration(seconds: 2),
+              backgroundColor: themeMode.value == ThemeMode.dark
+                  ? Get.theme.colorScheme.primaryVariant
+                  : Get.theme.colorScheme.secondary,
+              animationDuration: const Duration(milliseconds: 800),
               message: "Wallpaper copied to downloads folder",
             )));
   }

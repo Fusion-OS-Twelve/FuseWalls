@@ -15,19 +15,21 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        Get.delete<WallpapersGalleryController>();
-        Get.back;
-        return true;
-      },
-      child: AnnotatedRegion(
-        value: SystemUiOverlayStyle(
-            systemNavigationBarColor: getMonetBGColor(context)),
-        child: Scaffold(
-          backgroundColor: getMonetBGColor(context),
-          body: SafeArea(
-            child: Stack(
+    double topPadding = MediaQuery.of(context).padding.top;
+
+    return controller.obx((state) {
+      return WillPopScope(
+        onWillPop: () async {
+          Get.delete<WallpapersGalleryController>();
+          Get.back;
+          return true;
+        },
+        child: AnnotatedRegion(
+          value: SystemUiOverlayStyle(
+              systemNavigationBarColor: getMonetBGColor(context)),
+          child: Scaffold(
+            backgroundColor: getMonetBGColor(context),
+            body: Stack(
               children: [
                 NotificationListener(
                     onNotification:
@@ -41,8 +43,11 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                       },
                       builder: (_) {
                         return GridView.builder(
-                          padding: const EdgeInsets.only(
-                              top: 80, left: 20, right: 20, bottom: 20),
+                          padding: EdgeInsets.only(
+                              top: 80 + topPadding,
+                              left: 20,
+                              right: 20,
+                              bottom: 20),
                           controller: controller.gridController,
                           itemCount: _.wallsTobeDisplayed.length,
                           physics: const BouncingScrollPhysics(),
@@ -88,30 +93,40 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                 Obx(() => Blur(
                     blurColor: getMonetBGColor(context),
                     blur: controller.scrollOffset.value == 0 ? 0 : 8,
-                    overlay: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          child: backScreenIcon(context),
-                          onTap: () {
-                            Get.delete<WallpapersGalleryController>();
-                            Get.back();
-                          },
-                        ),
-                        Text(controller.title,
-                            textAlign: TextAlign.center,
-                            style: getTitleTextStyle(context)),
-                        changeThemeWidget(context)
-                      ],
+                    overlay: SafeArea(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          GestureDetector(
+                            child: backScreenIcon(context),
+                            onTap: () {
+                              Get.delete<WallpapersGalleryController>();
+                              Get.back();
+                            },
+                          ),
+                          Text(controller.title,
+                              textAlign: TextAlign.center,
+                              style: getTitleTextStyle(context)),
+                          changeThemeWidget(context)
+                        ],
+                      ),
                     ),
                     child: Container(
-                      height: 80,
+                      height: 80 + topPadding,
                     ))),
               ],
             ),
           ),
         ),
-      ),
-    );
+      );
+    },
+        onLoading: AnnotatedRegion(
+          value: SystemUiOverlayStyle(
+              systemNavigationBarColor: getMonetBGColor(context)),
+          child: Scaffold(
+            backgroundColor: getMonetBGColor(context),
+            body: const Center(child: CircularProgressIndicator()),
+          ),
+        ));
   }
 }
