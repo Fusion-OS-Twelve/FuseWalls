@@ -1,6 +1,7 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:dynamic_colorscheme/dynamic_colorscheme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fuse_walls/app/data/providers/theme_provider.dart';
 import 'package:fuse_walls/app/routes/pages.dart';
 import 'package:get/get.dart';
@@ -10,7 +11,16 @@ import 'app/routes/routes.dart';
 
 void main() async {
   await GetStorage.init();
-  runApp(const MyApp());
+  SystemChrome.setPreferredOrientations(
+    [
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ],
+  ).then((_) {
+    runApp(
+      const MyApp(),
+    );
+  });
 }
 
 class MyApp extends StatelessWidget {
