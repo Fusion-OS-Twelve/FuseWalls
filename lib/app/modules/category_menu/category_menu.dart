@@ -15,8 +15,7 @@ class CategoryMenu extends GetView<CategoryMenuController> {
   @override
   Widget build(BuildContext context) {
     double topPadding = MediaQuery.of(context).padding.top;
-    double height =
-        MediaQuery.of(context).size.height ;
+    double height = MediaQuery.of(context).size.height;
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         systemNavigationBarColor: getMonetBGColor(context),
