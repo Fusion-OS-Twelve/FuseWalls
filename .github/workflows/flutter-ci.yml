@@ -20,6 +20,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           java-version: '12.x'
+          distribution: 'adopt-openj9'
 
       # Setup the flutter environment.
       - uses: actions/cache@v2
