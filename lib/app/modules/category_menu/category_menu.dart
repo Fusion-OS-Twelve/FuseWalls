@@ -1,6 +1,8 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fuse_walls/app/core/theme/app_theme.dart';
+import 'package:fuse_walls/app/core/theme/text_theme.dart';
 import 'package:fuse_walls/app/data/enums/wall_enums.dart';
 import 'package:fuse_walls/app/modules/category_menu/controller.dart';
 import 'package:get/get.dart';
@@ -14,11 +16,12 @@ class CategoryMenu extends GetView<CategoryMenuController> {
   Widget build(BuildContext context) {
     double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
-          systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor),
+        systemNavigationBarColor: getMonetBGColor(context),
+      ),
       child: Scaffold(
+        backgroundColor: getMonetBGColor(context),
         body: SafeArea(
           child: Stack(
             children: [
@@ -47,22 +50,11 @@ class CategoryMenu extends GetView<CategoryMenuController> {
                 ),
               ),
               Obx(() => Blur(
-                  blurColor: Theme.of(context).scaffoldBackgroundColor,
+                  blurColor: getMonetBGColor(context),
                   blur: controller.scrollOffset.value == 0 ? 0 : 8,
-                  overlay: const Text(
-                    "FuseWalls",
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        fontFamily: "Satisfy",
-                        fontSize: 32,
-                        shadows: [
-                          Shadow(
-                            offset: Offset(0, 4.0),
-                            blurRadius: 4.0,
-                            color: Color(0x25000000),
-                          ),
-                        ]),
-                  ),
+                  overlay: Text("FuseWalls",
+                      textAlign: TextAlign.center,
+                      style: getTitleTextStyle(context)),
                   child: Container(
                     height: 80,
                   ))),

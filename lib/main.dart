@@ -6,7 +6,6 @@ import 'package:fuse_walls/app/routes/pages.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:material_color_utilities/material_color_utilities.dart';
-
 import 'app/routes/routes.dart';
 
 void main() async {
@@ -31,10 +30,14 @@ class MyApp extends StatelessWidget {
         title: 'FuseWalls',
         initialRoute: Routes.MENU,
         theme: m3Light == null
-            ? ThemeData(colorScheme: ThemeData.light().copyWith().colorScheme)
+            ? ThemeData(
+                colorScheme: ThemeData.light().copyWith().colorScheme,
+              )
             : ThemeData(colorScheme: m3Light),
         darkTheme: m3Dark == null
-            ? ThemeData(colorScheme: ThemeData.dark().copyWith().colorScheme)
+            ? ThemeData(
+                colorScheme: ThemeData.dark().copyWith().colorScheme,
+              )
             : ThemeData(colorScheme: m3Dark),
         themeMode: getThemeMode(),
       );

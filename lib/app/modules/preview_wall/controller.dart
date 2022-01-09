@@ -1,11 +1,7 @@
 import 'dart:io';
 import 'package:external_path/external_path.dart';
-import 'package:flutter/material.dart';
-import 'package:fuse_walls/app/data/providers/theme_provider.dart';
-import 'package:fuse_walls/app/data/services/theme_services.dart';
 import 'package:fuse_walls/app/data/services/wall_services.dart';
 import 'package:get/get.dart';
-import 'package:palette_generator/palette_generator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
@@ -13,7 +9,7 @@ import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
 class PreviewWallController extends GetxController with StateMixin {
   var path = "";
   var wallFile = File("").obs;
-  Color? accentColor = Get.iconColor;
+  // Color? accentColor = Get.iconColor;
 
   @override
   void onInit() async {
@@ -22,7 +18,7 @@ class PreviewWallController extends GetxController with StateMixin {
     path = args["path"];
     await Permission.storage.request();
     wallFile.value = await getImageFileFromAssets(path);
-    await getAccetColor();
+    // await getAccetColor();
     change(null, status: RxStatus.success());
     super.onInit();
   }
@@ -37,7 +33,7 @@ class PreviewWallController extends GetxController with StateMixin {
   void setWallpaper({required int location}) async {
     await Permission.storage.request();
     if (await Permission.storage.status.isGranted) {
-      WallpaperManagerFlutter().setwallpaperfromFile(wallFile, location);
+      WallpaperManagerFlutter().setwallpaperfromFile(wallFile.value, location);
     }
     Get.back();
   }
@@ -51,18 +47,20 @@ class PreviewWallController extends GetxController with StateMixin {
     var downloadPath = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
 
-    await wallFile.value.copy("$downloadPath/${path.split('/').last}");
-    Get.showSnackbar(const GetSnackBar(
-      title: "Success",
-      duration: Duration(seconds: 2),
-      message: "Wallpaper copied to downloads folder",
-    ));
+    await wallFile.value
+        .copy("$downloadPath/${path.split('/').last}")
+        .then((value) => Get.showSnackbar(const GetSnackBar(
+              title: "Success",
+              duration: Duration(seconds: 2),
+              message: "Wallpaper copied to downloads folder",
+            )));
   }
 
-  Future<void> getAccetColor() async {
-    PaletteGenerator generator = await getDominantColor(path);
-    accentColor = themeMode.value == ThemeMode.dark
-        ? generator.darkVibrantColor?.color
-        : generator.lightVibrantColor?.color;
-  }
+  // Future<void> getAccetColor() async {
+  //   PaletteGenerator generator = await getDominantColor(path);
+  //   // accentColor = themeMode.value == ThemeMode.dark
+  //   //     ? generator.darkVibrantColor?.color
+  //   //     : generator.lightVibrantColor?.color;
+  //   accentColor = generator.dominantColor?.color;
+  // }
 }

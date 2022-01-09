@@ -1,8 +1,12 @@
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fuse_walls/app/data/providers/theme_provider.dart';
-import 'package:fuse_walls/app/data/services/theme_services.dart';
+import 'package:fuse_walls/app/core/theme/app_theme.dart';
+import 'package:fuse_walls/app/core/theme/text_theme.dart';
+import 'package:fuse_walls/app/global_widgets/backscreen_icon.dart';
+import 'package:fuse_walls/app/global_widgets/change_theme_widgets.dart';
+import 'package:fuse_walls/app/modules/preview_wall/local_widgets/preview_copywalls.dart';
+import 'package:fuse_walls/app/modules/preview_wall/local_widgets/preview_setwalls.dart';
+import 'package:fuse_walls/app/modules/preview_wall/local_widgets/preview_sharewalls.dart';
 import 'package:get/get.dart';
 
 import 'controller.dart';
@@ -12,19 +16,18 @@ class PreviewWall extends GetView<PreviewWallController> {
 
   @override
   Widget build(BuildContext context) {
-    double height =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
-
     return controller.obx((state) {
       return WillPopScope(
         onWillPop: () async {
+          Get.delete<PreviewWallController>();
           Get.back;
           return true;
         },
         child: AnnotatedRegion(
           value: SystemUiOverlayStyle(
-              systemNavigationBarColor: Get.theme.scaffoldBackgroundColor),
+              systemNavigationBarColor: getMonetBGColor(context)),
           child: Scaffold(
+            backgroundColor: getMonetBGColor(context),
             body: SafeArea(
               child: Column(
                 children: [
@@ -35,59 +38,29 @@ class PreviewWall extends GetView<PreviewWallController> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         GestureDetector(
-                          child: const Icon(Icons.arrow_back_ios_new),
+                          child: backScreenIcon(context),
                           onTap: () {
+                            Get.delete<PreviewWallController>();
                             Get.back();
                           },
                         ),
-                        const Text(
-                          "Preview",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontFamily: "Satisfy",
-                              fontSize: 32,
-                              shadows: [
-                                Shadow(
-                                  offset: Offset(0, 4.0),
-                                  blurRadius: 4.0,
-                                  color: Color(0x25000000),
-                                ),
-                              ]),
-                        ),
-                        GestureDetector(
-                            onTap: () => showAdaptiveActionSheet(
-                                    context: context,
-                                    actions: [
-                                      BottomSheetAction(
-                                          title: const Text("Light Mode"),
-                                          onPressed: () {
-                                            changeThemeMode(ThemeMode.light);
-                                            controller.getAccetColor;
-                                            Get.back();
-                                          }),
-                                      BottomSheetAction(
-                                          title: const Text("Dark Mode"),
-                                          onPressed: () {
-                                            changeThemeMode(ThemeMode.dark);
-                                            controller.getAccetColor;
-                                            Get.back();
-                                          })
-                                    ]),
-                            child: Icon(themeMode.value == ThemeMode.light
-                                ? Icons.wb_sunny
-                                : Icons.mode_night)),
+                        Text("Preview",
+                            textAlign: TextAlign.center,
+                            style: getTitleTextStyle(context)),
+                        changeThemeWidget(context, controller),
                       ],
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                    height: height - 80 - 80,
-                    child: Obx(() => Image(
-                          fit: BoxFit.fitHeight,
-                          image: FileImage(
-                            controller.wallFile.value,
-                          ),
-                        )),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: Obx(() => Image(
+                            fit: BoxFit.cover,
+                            image: FileImage(
+                              controller.wallFile.value,
+                            ),
+                          )),
+                    ),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
@@ -96,77 +69,9 @@ class PreviewWall extends GetView<PreviewWallController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          SizedBox(
-                            height: 50,
-                            child: TextButton(
-                                style: TextButton.styleFrom(
-                                    shape: const CircleBorder()),
-                                onPressed: () {
-                                  controller.shareWallpaper();
-                                },
-                                child: const Icon(
-                                  Icons.share,
-                                  size: 22,
-                                )),
-                          ),
-                          SizedBox(
-                            height: 50,
-                            child: TextButton(
-                              onPressed: () {
-                                showAdaptiveActionSheet(
-                                    context: context,
-                                    androidBorderRadius: 20,
-                                    actions: [
-                                      BottomSheetAction(
-                                          title: const Text("Home Screen"),
-                                          onPressed: () {
-                                            controller.setWallpaper(
-                                                location: 1);
-                                          }),
-                                      BottomSheetAction(
-                                          title: const Text("Lock Screen"),
-                                          onPressed: () {
-                                            controller.setWallpaper(
-                                                location: 2);
-                                          }),
-                                      BottomSheetAction(
-                                          title:
-                                              const Text("Home & Lock Screen"),
-                                          onPressed: () {
-                                            controller.setWallpaper(
-                                                location: 3);
-                                          })
-                                    ]);
-                              },
-                              child: const Text(
-                                "SET WALLPAPER",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w900,
-                                    color: Colors.white),
-                              ),
-                              style: TextButton.styleFrom(
-                                  padding: const EdgeInsets.all(14),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  backgroundColor:
-                                      Theme.of(context).backgroundColor),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 50,
-                            child: TextButton(
-                                onPressed: () {
-                                  controller.copyToDownloadsFoler();
-                                },
-                                style: TextButton.styleFrom(
-                                    shape: const CircleBorder()),
-                                child: const Center(
-                                    child: Icon(
-                                  Icons.download,
-                                  size: 22,
-                                ))),
-                          )
+                          shareWallsWidget(controller),
+                          setWallsWidget(context, controller),
+                          copyWallsWidget(controller)
                         ],
                       ),
                     ),
@@ -180,7 +85,7 @@ class PreviewWall extends GetView<PreviewWallController> {
     },
         onLoading: AnnotatedRegion(
           value: SystemUiOverlayStyle(
-              systemNavigationBarColor: Get.theme.scaffoldBackgroundColor),
+              systemNavigationBarColor: getMonetBGColor(context)),
           child: const Scaffold(
             body: Center(child: CircularProgressIndicator()),
           ),

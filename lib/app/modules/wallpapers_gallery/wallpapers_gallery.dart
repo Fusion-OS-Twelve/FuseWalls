@@ -1,9 +1,10 @@
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fuse_walls/app/data/providers/theme_provider.dart';
-import 'package:fuse_walls/app/data/services/theme_services.dart';
+import 'package:fuse_walls/app/core/theme/app_theme.dart';
+import 'package:fuse_walls/app/core/theme/text_theme.dart';
+import 'package:fuse_walls/app/global_widgets/backscreen_icon.dart';
+import 'package:fuse_walls/app/global_widgets/change_theme_widgets.dart';
 import 'package:fuse_walls/app/modules/wallpapers_gallery/controller.dart';
 import 'package:fuse_walls/app/routes/routes.dart';
 import 'package:get/get.dart';
@@ -16,14 +17,15 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
+        Get.delete<WallpapersGalleryController>();
         Get.back;
         return true;
       },
       child: AnnotatedRegion(
         value: SystemUiOverlayStyle(
-            systemNavigationBarColor:
-                Theme.of(context).scaffoldBackgroundColor),
+            systemNavigationBarColor: getMonetBGColor(context)),
         child: Scaffold(
+          backgroundColor: getMonetBGColor(context),
           body: SafeArea(
             child: Stack(
               children: [
@@ -84,51 +86,22 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                       },
                     )),
                 Obx(() => Blur(
-                    blurColor: Theme.of(context).scaffoldBackgroundColor,
+                    blurColor: getMonetBGColor(context),
                     blur: controller.scrollOffset.value == 0 ? 0 : 8,
                     overlay: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         GestureDetector(
-                          child: const Icon(Icons.arrow_back_ios_new),
+                          child: backScreenIcon(context),
                           onTap: () {
+                            Get.delete<WallpapersGalleryController>();
                             Get.back();
                           },
                         ),
-                        Text(
-                          controller.title,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                              fontFamily: "Satisfy",
-                              fontSize: 32,
-                              shadows: [
-                                Shadow(
-                                  offset: Offset(0, 4.0),
-                                  blurRadius: 4.0,
-                                  color: Color(0x25000000),
-                                ),
-                              ]),
-                        ),
-                        GestureDetector(
-                            onTap: () => showAdaptiveActionSheet(
-                                    context: context,
-                                    actions: [
-                                      BottomSheetAction(
-                                          title: const Text("Light Mode"),
-                                          onPressed: () {
-                                            changeThemeMode(ThemeMode.light);
-                                            Get.back();
-                                          }),
-                                      BottomSheetAction(
-                                          title: const Text("Dark Mode"),
-                                          onPressed: () {
-                                            changeThemeMode(ThemeMode.dark);
-                                            Get.back();
-                                          })
-                                    ]),
-                            child: Icon(themeMode.value == ThemeMode.light
-                                ? Icons.wb_sunny
-                                : Icons.mode_night))
+                        Text(controller.title,
+                            textAlign: TextAlign.center,
+                            style: getTitleTextStyle(context)),
+                        changeThemeWidget(context, controller)
                       ],
                     ),
                     child: Container(
