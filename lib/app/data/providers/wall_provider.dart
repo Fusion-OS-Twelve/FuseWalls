@@ -1,20 +1,28 @@
 import 'dart:convert';
-
-import 'package:flutter/services.dart';
+import 'package:dio/dio.dart';
+import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_store.dart';
 import 'package:fuse_walls/app/data/models/wall_model.dart';
-import 'package:schttp/schttp.dart';
+import 'package:path_provider/path_provider.dart';
 
 Map allWallpapers = {"categories": <Map>[]};
 
 Future<void> getAllWallpapers() async {
-  var client = ScHttpClient();
-  String baseUrl =
-      "https://raw.githubusercontent.com/Fusion-OS/FuseWalls/master/assets/walls";
-  String request = await client.get("$baseUrl/wallpapers.json");
+  var docDir = await getApplicationDocumentsDirectory();
+  var client = Dio();
+  final options = CacheOptions(
+    store: HiveCacheStore(docDir.path),
+    policy: CachePolicy.request,
+    priority: CachePriority.normal,
+  );
 
-  var jsonData = json.decode(request == ""
-      ? await rootBundle.loadString("assets/walls/wallpapers.json")
-      : request);
+  client.interceptors.add(DioCacheInterceptor(options: options));
+  String baseUrl =
+      "https://raw.githubusercontent.com/naufalw/FuseWalls/master/assets/walls";
+  var request = await client.get("$baseUrl/wallpapers.json");
+
+  var jsonData = json.decode(request.data);
+
   allWallpapers["date"] = jsonData["date"];
   for (var k = 0; k < jsonData["categories"].length; k++) {
     List tempWalls = [];
