@@ -16,61 +16,61 @@ class PreviewWall extends GetView<PreviewWallController> {
 
   @override
   Widget build(BuildContext context) {
-    return controller.obx((state) {
-      return WillPopScope(
-        onWillPop: () async {
-          Get.delete<PreviewWallController>();
-          Get.back;
-          return true;
-        },
-        child: AnnotatedRegion(
-          value: SystemUiOverlayStyle(
-              systemNavigationBarColor: getMonetBGColor(context)),
-          child: Scaffold(
-            backgroundColor: getMonetBGColor(context),
-            body: SafeArea(
-              child: Column(
-                children: [
-                  Container(
-                    height: 80,
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          child: backScreenIcon(context),
-                          onTap: () {
-                            Get.delete<PreviewWallController>();
-                            Get.back();
-                          },
-                        ),
-                        Text("Preview",
-                            textAlign: TextAlign.center,
-                            style: getTitleTextStyle(context)),
-                        changeThemeWidget(context),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                        child: controller.obx((state) {
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Image(
-                              fit: BoxFit.cover,
-                              image: FileImage(
-                                controller.wallFile.value,
-                              ),
-                            ),
-                          );
+    return WillPopScope(
+      onWillPop: () async {
+        Get.delete<PreviewWallController>();
+        Get.back;
+        return true;
+      },
+      child: AnnotatedRegion(
+        value: SystemUiOverlayStyle(
+            systemNavigationBarColor: getMonetBGColor(context)),
+        child: Scaffold(
+          backgroundColor: getMonetBGColor(context),
+          body: SafeArea(
+            child: Column(
+              children: [
+                Container(
+                  height: 80,
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      GestureDetector(
+                        child: backScreenIcon(context),
+                        onTap: () {
+                          Get.delete<PreviewWallController>();
+                          Get.back();
                         },
-                            onLoading: const Center(
-                                child: CircularProgressIndicator()))),
+                      ),
+                      Text("Preview",
+                          textAlign: TextAlign.center,
+                          style: getTitleTextStyle(context)),
+                      changeThemeWidget(context),
+                    ],
                   ),
-                  Container(
+                ),
+                Expanded(
+                  child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                      child: controller.obx((state) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Image(
+                            fit: BoxFit.cover,
+                            image: FileImage(
+                              controller.wallFile.value,
+                            ),
+                          ),
+                        );
+                      },
+                          onLoading: const Center(
+                              child: CircularProgressIndicator()))),
+                ),
+                controller.obx((state) {
+                  return Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     height: 80,
                     child: Center(
@@ -83,21 +83,13 @@ class PreviewWall extends GetView<PreviewWallController> {
                         ],
                       ),
                     ),
-                  )
-                ],
-              ),
+                  );
+                }, onLoading: Container())
+              ],
             ),
           ),
         ),
-      );
-    },
-        onLoading: AnnotatedRegion(
-          value: SystemUiOverlayStyle(
-              systemNavigationBarColor: getMonetBGColor(context)),
-          child: Scaffold(
-            backgroundColor: getMonetBGColor(context),
-            body: const Center(child: CircularProgressIndicator()),
-          ),
-        ));
+      ),
+    );
   }
 }
