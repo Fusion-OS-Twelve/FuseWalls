@@ -1,6 +1,7 @@
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fuse_walls/app/core/theme/app_theme.dart';
 import 'package:fuse_walls/app/core/theme/text_theme.dart';
 import 'package:fuse_walls/app/global_widgets/backscreen_icon.dart';
@@ -33,61 +34,72 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
             backgroundColor: getMonetBGColor(context),
             body: Stack(
               children: [
-                NotificationListener(
-                    onNotification:
-                        (OverscrollIndicatorNotification? overscroll) {
-                      overscroll!.disallowIndicator();
-                      return true;
-                    },
-                    child: GetX<WallpapersGalleryController>(
-                      initState: (state) {
-                        Get.find<WallpapersGalleryController>();
+                controller.obx((state) {
+                  return NotificationListener(
+                      onNotification:
+                          (OverscrollIndicatorNotification? overscroll) {
+                        overscroll!.disallowIndicator();
+                        return true;
                       },
-                      builder: (_) {
-                        return GridView.builder(
-                          padding: EdgeInsets.only(
-                              top: 80 + topPadding,
-                              left: 20,
-                              right: 20,
-                              bottom: 20),
-                          controller: controller.gridController,
-                          itemCount: _.wallsTobeDisplayed.length,
-                          physics: const BouncingScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                                  mainAxisSpacing: 20,
-                                  crossAxisSpacing: 14,
-                                  childAspectRatio: 0.6,
-                                  crossAxisCount: 2),
-                          itemBuilder: (context, index) {
-                            return ClipRRect(
-                                borderRadius: BorderRadius.circular(16),
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    WallpaperFrame(
-                                      thumbUrl: controller
-                                          .wallsTobeDisplayed[index].thumbUrl,
-                                    ),
-                                    Material(
-                                      color: Colors.transparent,
-                                      child: InkWell(
-                                        onTap: () {
-                                          Get.toNamed(Routes.PREVIEW,
-                                              arguments: {
-                                                "path": _
-                                                    .wallsTobeDisplayed[index]
-                                                    .path
-                                              });
-                                        },
+                      child: GetX<WallpapersGalleryController>(
+                        initState: (state) {
+                          Get.find<WallpapersGalleryController>();
+                        },
+                        builder: (_) {
+                          return GridView.builder(
+                            padding: EdgeInsets.only(
+                                top: 80 + topPadding,
+                                left: 20,
+                                right: 20,
+                                bottom: 20),
+                            controller: controller.gridController,
+                            itemCount: _.wallsTobeDisplayed.length,
+                            physics: const BouncingScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    mainAxisSpacing: 20,
+                                    crossAxisSpacing: 14,
+                                    childAspectRatio: 0.6,
+                                    crossAxisCount: 2),
+                            itemBuilder: (context, index) {
+                              return ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Stack(
+                                    fit: StackFit.expand,
+                                    children: [
+                                      WallpaperFrame(
+                                        thumbUrl: controller
+                                            .wallsTobeDisplayed[index].thumbUrl,
                                       ),
-                                    )
-                                  ],
-                                ));
-                          },
-                        );
-                      },
-                    )),
+                                      Material(
+                                        color: Colors.transparent,
+                                        child: InkWell(
+                                          onTap: () {
+                                            Get.toNamed(Routes.PREVIEW,
+                                                arguments: {
+                                                  "path": _
+                                                      .wallsTobeDisplayed[index]
+                                                      .path
+                                                });
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ));
+                            },
+                          );
+                        },
+                      ));
+                },
+                    onLoading: const Center(child: CircularProgressIndicator()),
+                    onError: (e) => Column(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/svg/error.svg",
+                            ),
+                            Text(e!)
+                          ],
+                        )),
                 Obx(() => Blur(
                     blurColor: getMonetBGColor(context),
                     blur: controller.scrollOffset.value == 0 ? 0 : 8,
@@ -117,14 +129,6 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
           ),
         ),
       );
-    },
-        onLoading: AnnotatedRegion(
-          value: SystemUiOverlayStyle(
-              systemNavigationBarColor: getMonetBGColor(context)),
-          child: Scaffold(
-            backgroundColor: getMonetBGColor(context),
-            body: const Center(child: CircularProgressIndicator()),
-          ),
-        ));
+    });
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:fuse_walls/app/core/theme/app_theme.dart';
 import 'package:fuse_walls/app/core/theme/text_theme.dart';
 import 'package:fuse_walls/app/global_widgets/backscreen_icon.dart';
@@ -65,6 +66,10 @@ class PreviewWall extends GetView<PreviewWallController> {
                             ),
                           ),
                         );
+                      }, onError: (e) {
+                        return SvgPicture.asset(
+                          "assets/svg/error.svg",
+                        );
                       },
                           onLoading: const Center(
                               child: CircularProgressIndicator()))),
@@ -84,7 +89,7 @@ class PreviewWall extends GetView<PreviewWallController> {
                       ),
                     ),
                   );
-                }, onLoading: Container())
+                }, onLoading: Container()),
               ],
             ),
           ),

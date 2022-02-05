@@ -23,10 +23,15 @@ class PreviewWallController extends GetxController with StateMixin {
     path = args["path"];
     await Permission.storage.request();
     // wallFile.value = await getImageFileFromAssets(path);
-    await downloadWallpaper(path);
+    try {
+      await downloadWallpaper(path);
+      change(null, status: RxStatus.success());
+      super.onInit();
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
+    }
+
     // await getAccetColor();
-    change(null, status: RxStatus.success());
-    super.onInit();
   }
 
   @override

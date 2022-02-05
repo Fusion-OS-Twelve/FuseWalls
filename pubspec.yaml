@@ -39,6 +39,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cache_manager: ^3.3.0
+  flutter_svg: ^1.0.3
   get: ^4.6.1
   get_storage: ^2.0.3
   intl: ^0.17.0
@@ -77,7 +78,7 @@ flutter:
     # - assets/walls/material/
     # - assets/walls/material/thumb/
     # - assets/walls/liquid/
-    # - assets/walls/liquid/thumb/
+    - assets/svg/error.svg
     - assets/walls/wallpapers.json
     - assets/fonts/
     - assets/icon/

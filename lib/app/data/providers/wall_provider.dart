@@ -18,7 +18,7 @@ Future<void> getAllWallpapers() async {
 
   client.interceptors.add(DioCacheInterceptor(options: options));
   String baseUrl =
-      "https://raw.githubusercontent.com/naufalw/FuseWalls/master/assets/walls";
+      "https://raw.githubusercontent.com/Fusion-OS/FuseWalls/master/assets/walls";
   var request = await client.get("$baseUrl/wallpapers.json");
 
   var jsonData = json.decode(request.data);

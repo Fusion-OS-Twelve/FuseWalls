@@ -10,12 +10,18 @@ class CategoryMenuController extends GetxController with StateMixin {
   @override
   void onInit() async {
     change(null, status: RxStatus.loading());
-    await getAllWallpapers();
-    categories = allWallpapers["categories"];
     categoryScrollController.addListener(() {
       scrollOffset.value = categoryScrollController.position.pixels;
     });
-    change(null, status: RxStatus.success());
+    try {
+      await getAllWallpapers();
+      categories = allWallpapers["categories"];
+
+      change(null, status: RxStatus.success());
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
+    }
+
     super.onInit();
   }
 
