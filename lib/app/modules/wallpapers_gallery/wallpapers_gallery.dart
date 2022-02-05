@@ -8,7 +8,9 @@ import 'package:fuse_walls/app/global_widgets/change_theme_widgets.dart';
 import 'package:fuse_walls/app/modules/wallpapers_gallery/controller.dart';
 import 'package:fuse_walls/app/routes/routes.dart';
 import 'package:get/get.dart';
-import 'package:octo_image/octo_image.dart';
+import 'package:intl/intl.dart';
+
+import 'local_widgets/wallpaper_frame.dart';
 
 class WallpapersGallery extends GetView<WallpapersGalleryController> {
   const WallpapersGallery({Key? key}) : super(key: key);
@@ -63,13 +65,9 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                                 child: Stack(
                                   fit: StackFit.expand,
                                   children: [
-                                    OctoImage(
-                                      placeholderBuilder: OctoPlaceholder
-                                          .circularProgressIndicator(),
-                                      filterQuality: FilterQuality.none,
-                                      image: AssetImage(controller
-                                          .wallsTobeDisplayed[index].thumbPath),
-                                      fit: BoxFit.cover,
+                                    WallpaperFrame(
+                                      thumbUrl: controller
+                                          .wallsTobeDisplayed[index].thumbUrl,
                                     ),
                                     Material(
                                       color: Colors.transparent,
@@ -104,7 +102,7 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                               Get.back();
                             },
                           ),
-                          Text(controller.title,
+                          Text(toBeginningOfSentenceCase(controller.title)!,
                               textAlign: TextAlign.center,
                               style: getTitleTextStyle(context)),
                           changeThemeWidget(context)

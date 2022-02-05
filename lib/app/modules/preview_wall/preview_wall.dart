@@ -53,14 +53,22 @@ class PreviewWall extends GetView<PreviewWallController> {
                   ),
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: Obx(() => Image(
-                            fit: BoxFit.cover,
-                            image: FileImage(
-                              controller.wallFile.value,
+                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        child: controller.obx((state) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
                             ),
-                          )),
-                    ),
+                            child: Image(
+                              fit: BoxFit.cover,
+                              image: FileImage(
+                                controller.wallFile.value,
+                              ),
+                            ),
+                          );
+                        },
+                            onLoading: const Center(
+                                child: CircularProgressIndicator()))),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 10),

@@ -1,33 +1,35 @@
 import 'package:blur/blur.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fuse_walls/app/routes/routes.dart';
 import 'package:get/get.dart';
-import 'package:octo_image/octo_image.dart';
+import 'package:intl/intl.dart' show toBeginningOfSentenceCase;
 
 class CategoryCard extends StatelessWidget {
-  const CategoryCard({Key? key, required this.wallType}) : super(key: key);
-
-  final String wallType;
-  static const String thumbnailUri = "assets/walls/category_thumb/";
+  const CategoryCard(
+      {Key? key, required this.title, required this.thumbnailUrl})
+      : super(key: key);
+  final String title;
+  final String thumbnailUrl;
   @override
   Widget build(BuildContext context) {
     double height =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     double width = MediaQuery.of(context).size.width;
     return AspectRatio(
-        aspectRatio: 285 / 228,
+        aspectRatio: 285 / 200,
         child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Stack(
               fit: StackFit.expand,
               children: [
-                OctoImage(
-                  placeholderBuilder:
-                      OctoPlaceholder.circularProgressIndicator(),
-                  filterQuality: FilterQuality.high,
-                  image: AssetImage(
-                      thumbnailUri + (wallType.toLowerCase() + ".png")),
-                  fit: BoxFit.cover,
+                CachedNetworkImage(
+                  progressIndicatorBuilder: (context, url, progress) => Center(
+                    child: CircularProgressIndicator(
+                      value: progress.progress,
+                    ),
+                  ),
+                  imageUrl: thumbnailUrl,
                 ),
                 Positioned(
                   bottom: 0,
@@ -51,7 +53,7 @@ class CategoryCard extends StatelessWidget {
                     margin: const EdgeInsets.only(right: 18),
                     alignment: Alignment.centerRight,
                     child: Text(
-                      wallType,
+                      toBeginningOfSentenceCase(title)!,
                       style: const TextStyle(
                         fontFamily: "Satisfy",
                         color: Colors.black,
@@ -65,7 +67,7 @@ class CategoryCard extends StatelessWidget {
                   child: InkWell(
                     onTap: () {
                       Get.toNamed(Routes.GALLERY,
-                          arguments: {"wallType": wallType});
+                          arguments: {"categoryName": title});
                     },
                   ),
                 )

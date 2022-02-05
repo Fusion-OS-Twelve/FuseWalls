@@ -1,8 +1,15 @@
 class WallModel {
   String path;
-  String walltype;
-  String thumbPath;
+  String thumbUrl;
 
-  WallModel(
-      {required this.path, required this.walltype, required this.thumbPath});
+  WallModel({required this.path, required this.thumbUrl});
+
+  factory WallModel.fromJson(json) {
+    const String _url =
+        "https://raw.githubusercontent.com/naufalw/FuseWalls/master/assets/walls/";
+    return WallModel(
+      path: _url + json['original'],
+      thumbUrl: _url + json['compressed'],
+    );
+  }
 }

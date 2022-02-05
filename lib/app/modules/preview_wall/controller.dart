@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:fuse_walls/app/data/providers/theme_provider.dart';
-import 'package:fuse_walls/app/data/services/wall_services.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -11,7 +11,10 @@ import 'package:wallpaper_manager_flutter/wallpaper_manager_flutter.dart';
 class PreviewWallController extends GetxController with StateMixin {
   var path = "";
   var wallFile = File("").obs;
-  // Color? accentColor = Get.iconColor;
+
+  Future<void> downloadWallpaper(String url) async {
+    wallFile.value = await DefaultCacheManager().getSingleFile(url);
+  }
 
   @override
   void onInit() async {
@@ -19,7 +22,8 @@ class PreviewWallController extends GetxController with StateMixin {
     var args = Get.arguments;
     path = args["path"];
     await Permission.storage.request();
-    wallFile.value = await getImageFileFromAssets(path);
+    // wallFile.value = await getImageFileFromAssets(path);
+    await downloadWallpaper(path);
     // await getAccetColor();
     change(null, status: RxStatus.success());
     super.onInit();

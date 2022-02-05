@@ -1,31 +1,90 @@
-import 'package:adaptive_action_sheet/adaptive_action_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:fuse_walls/app/core/theme/app_theme.dart';
 import 'package:fuse_walls/app/data/providers/theme_provider.dart';
+import 'package:fuse_walls/app/data/providers/wall_provider.dart';
 import 'package:fuse_walls/app/data/services/theme_services.dart';
 import 'package:get/get.dart';
 
 Widget changeThemeWidget(context) {
   return GestureDetector(
-      onTap: () => showAdaptiveActionSheet(
-              context: context,
-              bottomSheetColor: getMonetBGColor(context),
-              actions: [
-                BottomSheetAction(
-                    title: const Text("Light Mode"),
-                    onPressed: () {
+      onTap: () {
+        Get.bottomSheet(
+            ListView(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              padding: EdgeInsets.only(top: Get.height * 0.02),
+              children: [
+                BottomSheetListTile(
+                    title: "Light Mode",
+                    onTap: () {
                       changeThemeMode(ThemeMode.light);
                       Get.back();
                     }),
-                BottomSheetAction(
-                    title: const Text("Dark Mode"),
-                    onPressed: () {
+                BottomSheetListTile(
+                    title: "Dark Mode",
+                    onTap: () {
                       changeThemeMode(ThemeMode.dark);
                       Get.back();
-                    })
-              ]),
+                    }),
+                const Divider(),
+                BottomSheetListTile(
+                    title: "About",
+                    onTap: () {
+                      showAboutDialog(context: context);
+                    }),
+                Text(
+                  allWallpapers["date"],
+                  textAlign: TextAlign.right,
+                  style: Theme.of(context).textTheme.caption,
+                ),
+              ],
+            ),
+            shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(30),
+                    topRight: Radius.circular(30))),
+            backgroundColor: getMonetBGColor(context));
+      },
       child: Icon(
         themeMode.value == ThemeMode.light ? Icons.wb_sunny : Icons.mode_night,
         color: getMonetOnBGColor(context),
       ));
 }
+
+class BottomSheetListTile extends StatelessWidget {
+  const BottomSheetListTile(
+      {required this.onTap, required this.title, Key? key})
+      : super(key: key);
+
+  final String title;
+  final Function() onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Text(
+          title,
+          style: Theme.of(context).textTheme.headline6,
+          textAlign: TextAlign.center,
+        ),
+        onTap: onTap);
+  }
+}
+
+// => showAdaptiveActionSheet(
+//               context: context,
+//               bottomSheetColor: getMonetBGColor(context),
+//               actions: [
+//                 BottomSheetAction(
+//                     title: const Text("Light Mode"),
+//                     onPressed: () {
+//                       changeThemeMode(ThemeMode.light);
+//                       Get.back();
+//                     }),
+//                 BottomSheetAction(
+//                     title: const Text("Dark Mode"),
+//                     onPressed: () {
+//                       changeThemeMode(ThemeMode.dark);
+//                       Get.back();
+//                     })
+//               ])

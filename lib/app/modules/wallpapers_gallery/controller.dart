@@ -19,8 +19,8 @@ class WallpapersGalleryController extends GetxController with StateMixin {
       scrollOffset.value = gridController.position.pixels;
     });
     var args = Get.arguments;
-    title = args["wallType"];
-    wallsTobeDisplayed.value = await fillWallpapersList(args["wallType"]);
+    title = args["categoryName"];
+    wallsTobeDisplayed.value = await getSpecifiedCategory(args["categoryName"]);
     change(null, status: RxStatus.success());
     // action(args);
     super.onInit();
