@@ -6,7 +6,7 @@ class WallModel {
 
   factory WallModel.fromJson(json) {
     const String _url =
-        "https://raw.githubusercontent.com/naufalw/FuseWalls/master/assets/walls/";
+        "https://raw.githubusercontent.com/Fusion-OS/FuseWalls/master/assets/walls/";
     return WallModel(
       path: _url + json['original'],
       thumbUrl: _url + json['compressed'],
