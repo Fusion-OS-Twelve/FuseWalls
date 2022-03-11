@@ -1,3 +1,4 @@
+import 'package:badges/badges.dart';
 import 'package:blur/blur.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,7 +20,6 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
   @override
   Widget build(BuildContext context) {
     double topPadding = MediaQuery.of(context).padding.top;
-
     return controller.obx((state) {
       return WillPopScope(
         onWillPop: () async {
@@ -46,47 +46,73 @@ class WallpapersGallery extends GetView<WallpapersGalleryController> {
                           Get.find<WallpapersGalleryController>();
                         },
                         builder: (_) {
-                          return GridView.builder(
-                            padding: EdgeInsets.only(
-                                top: 80 + topPadding,
-                                left: 20,
-                                right: 20,
-                                bottom: 20),
-                            controller: controller.gridController,
-                            itemCount: _.wallsTobeDisplayed.length,
-                            physics: const BouncingScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                                    mainAxisSpacing: 20,
-                                    crossAxisSpacing: 14,
-                                    childAspectRatio: 0.6,
-                                    crossAxisCount: 2),
-                            itemBuilder: (context, index) {
-                              return ClipRRect(
-                                  borderRadius: BorderRadius.circular(16),
-                                  child: Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      WallpaperFrame(
-                                        thumbUrl: controller
-                                            .wallsTobeDisplayed[index].thumbUrl,
-                                      ),
-                                      Material(
-                                        color: Colors.transparent,
-                                        child: InkWell(
-                                          onTap: () {
-                                            Get.toNamed(Routes.PREVIEW,
-                                                arguments: {
-                                                  "path": _
-                                                      .wallsTobeDisplayed[index]
-                                                      .path
-                                                });
-                                          },
-                                        ),
-                                      )
-                                    ],
-                                  ));
-                            },
+                          return RefreshIndicator(
+                            edgeOffset: 90 + topPadding,
+                            onRefresh: controller.refreshWalls,
+                            child: GridView.builder(
+                              shrinkWrap: true,
+                              padding: EdgeInsets.only(
+                                  top: 90 + topPadding,
+                                  left: 20,
+                                  right: 20,
+                                  bottom: 20),
+                              controller: controller.gridController,
+                              itemCount: _.wallsTobeDisplayed.length,
+                              physics: const BouncingScrollPhysics(),
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      mainAxisSpacing: 20,
+                                      crossAxisSpacing: 14,
+                                      childAspectRatio: 0.6,
+                                      crossAxisCount: 2),
+                              itemBuilder: (context, index) {
+                                return Badge(
+                                  showBadge: controller
+                                      .wallsTobeDisplayed[index].isNew,
+                                  shape: BadgeShape.square,
+                                  toAnimate: false,
+                                  badgeColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(10),
+                                  badgeContent: Text(
+                                    'New!!',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelLarge!
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary),
+                                  ),
+                                  child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(16),
+                                      child: Stack(
+                                        fit: StackFit.expand,
+                                        children: [
+                                          WallpaperFrame(
+                                            thumbUrl: controller
+                                                .wallsTobeDisplayed[index]
+                                                .thumbUrl,
+                                          ),
+                                          Material(
+                                            color: Colors.transparent,
+                                            child: InkWell(
+                                              onTap: () {
+                                                Get.toNamed(Routes.PREVIEW,
+                                                    arguments: {
+                                                      "path": _
+                                                          .wallsTobeDisplayed[
+                                                              index]
+                                                          .path
+                                                    });
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      )),
+                                );
+                              },
+                            ),
                           );
                         },
                       ));

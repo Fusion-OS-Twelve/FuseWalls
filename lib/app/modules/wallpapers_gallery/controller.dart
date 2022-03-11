@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:fuse_walls/app/data/providers/wall_provider.dart';
 import 'package:fuse_walls/app/data/services/wall_services.dart';
 import 'package:get/get.dart';
 
@@ -8,10 +11,6 @@ class WallpapersGalleryController extends GetxController with StateMixin {
   String title = "";
   var scrollOffset = 0.0.obs;
 
-  // void action(args) async {
-  //   wallsTobeDisplayed = await fillWallpapersList(args["wallType"]);
-  // }
-
   @override
   void onInit() async {
     change(null, status: RxStatus.loading());
@@ -19,6 +18,7 @@ class WallpapersGalleryController extends GetxController with StateMixin {
       gridController.addListener(() {
         scrollOffset.value = gridController.position.pixels;
       });
+
       var args = Get.arguments;
       title = args["categoryName"];
       wallsTobeDisplayed.value =
@@ -35,5 +35,15 @@ class WallpapersGalleryController extends GetxController with StateMixin {
   void onClose() {
     gridController.dispose();
     super.onClose();
+  }
+
+  Future<void> refreshWalls() async {
+    try {
+      await getAllWallpapers();
+
+      change(null, status: RxStatus.success());
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
+    }
   }
 }

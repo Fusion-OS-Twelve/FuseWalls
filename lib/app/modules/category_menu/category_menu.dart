@@ -33,23 +33,28 @@ class CategoryMenu extends GetView<CategoryMenuController> {
                     overscroll!.disallowIndicator();
                     return true;
                   },
-                  child: ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      padding: EdgeInsets.only(
-                          left: 20,
-                          right: 20,
-                          top: 80 + topPadding,
-                          bottom: 20),
-                      controller: controller.categoryScrollController,
-                      itemBuilder: (context, index) => CategoryCard(
-                            title: controller.categories[index]["name"],
-                            thumbnailUrl: controller.categories[index]["thumb"],
-                          ),
-                      separatorBuilder: (context, index) => SizedBox(
-                            height: height * 0.02,
-                          ),
-                      itemCount: controller.categories.length),
+                  child: RefreshIndicator(
+                    edgeOffset: 90 + topPadding,
+                    onRefresh: controller.refreshWalls,
+                    child: ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                            top: 80 + topPadding,
+                            bottom: 20),
+                        controller: controller.categoryScrollController,
+                        itemBuilder: (context, index) => CategoryCard(
+                              title: controller.categories[index]["name"],
+                              thumbnailUrl: controller.categories[index]
+                                  ["thumb"],
+                            ),
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: height * 0.02,
+                            ),
+                        itemCount: controller.categories.length),
+                  ),
                 );
               },
               onLoading: const Center(child: CircularProgressIndicator()),

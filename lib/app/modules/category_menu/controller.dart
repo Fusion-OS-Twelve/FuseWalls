@@ -30,4 +30,14 @@ class CategoryMenuController extends GetxController with StateMixin {
     categoryScrollController.dispose();
     super.onClose();
   }
+
+  Future<void> refreshWalls() async {
+    try {
+      await getAllWallpapers();
+
+      change(null, status: RxStatus.success());
+    } catch (e) {
+      change(null, status: RxStatus.error(e.toString()));
+    }
+  }
 }
