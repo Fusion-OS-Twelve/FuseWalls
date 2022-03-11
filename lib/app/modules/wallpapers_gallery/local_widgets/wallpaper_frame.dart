@@ -10,6 +10,18 @@ class WallpaperFrame extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: thumbUrl,
+      errorWidget: (context, url, error) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline_outlined, size: 100),
+            Text(
+              error,
+              style: Theme.of(context).textTheme.displayMedium,
+            )
+          ],
+        );
+      },
       progressIndicatorBuilder: (context, url, downloadProgress) => Center(
           child: CircularProgressIndicator(value: downloadProgress.progress)),
       filterQuality: FilterQuality.none,

@@ -24,6 +24,18 @@ class CategoryCard extends StatelessWidget {
               fit: StackFit.expand,
               children: [
                 CachedNetworkImage(
+                  errorWidget: (context, url, error) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(Icons.error_outline_outlined, size: 100),
+                        Text(
+                          error,
+                          style: Theme.of(context).textTheme.displayMedium,
+                        )
+                      ],
+                    );
+                  },
                   fit: BoxFit.cover,
                   progressIndicatorBuilder: (context, url, progress) => Center(
                     child: CircularProgressIndicator(

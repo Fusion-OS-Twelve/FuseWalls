@@ -42,23 +42,32 @@ class PreviewWallController extends GetxController with StateMixin {
   }
 
   void setWallpaper({required int location}) async {
-    await Permission.storage.request();
-    if (await Permission.storage.status.isGranted) {
-      WallpaperManagerFlutter()
-          .setwallpaperfromFile(wallFile.value, location)
-          .then((value) {})
-          .then((value) {
-        Get.back();
-        Get.showSnackbar(GetSnackBar(
-          title: "Wallpaper set!",
-          duration: const Duration(seconds: 2),
-          backgroundColor: themeMode.value == ThemeMode.dark
-              ? Get.theme.colorScheme.primaryVariant
-              : Get.theme.colorScheme.secondary,
-          animationDuration: const Duration(milliseconds: 800),
-          message: "Wallpaper has been set",
-        ));
-      });
+    try {
+      await Permission.storage.request();
+      if (await Permission.storage.status.isGranted) {
+        WallpaperManagerFlutter()
+            .setwallpaperfromFile(wallFile.value, location)
+            .then((value) {
+          Get.back();
+          Get.showSnackbar(GetSnackBar(
+            title: "Wallpaper set!",
+            duration: const Duration(seconds: 2),
+            backgroundColor: themeMode.value == ThemeMode.dark
+                ? Get.theme.colorScheme.primaryContainer
+                : Get.theme.colorScheme.secondary,
+            animationDuration: const Duration(milliseconds: 800),
+            message: "Wallpaper has been set",
+          ));
+        });
+      }
+    } catch (e) {
+      Get.showSnackbar(GetSnackBar(
+        title: "Error",
+        duration: const Duration(seconds: 2),
+        backgroundColor: Get.theme.colorScheme.error,
+        animationDuration: const Duration(milliseconds: 800),
+        message: "Error setting wallpaper\n${e.toString()}",
+      ));
     }
   }
 
@@ -77,7 +86,7 @@ class PreviewWallController extends GetxController with StateMixin {
               title: "Wallpaper downloaded!",
               duration: const Duration(seconds: 2),
               backgroundColor: themeMode.value == ThemeMode.dark
-                  ? Get.theme.colorScheme.primaryVariant
+                  ? Get.theme.colorScheme.primaryContainer
                   : Get.theme.colorScheme.secondary,
               animationDuration: const Duration(milliseconds: 800),
               message: "Wallpaper copied to downloads folder",
