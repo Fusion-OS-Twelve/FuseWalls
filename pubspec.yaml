@@ -49,6 +49,7 @@ dependencies:
   permission_handler: ^8.3.0
   schttp: ^4.1.0
   share_plus: ^3.0.4
+  url_launcher: ^6.0.20
   wallpaper_manager_flutter: ^0.0.2
 
 dev_dependencies:

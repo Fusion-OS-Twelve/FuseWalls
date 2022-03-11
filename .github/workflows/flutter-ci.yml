@@ -23,10 +23,6 @@ jobs:
           distribution: 'adopt-openj9'
 
       # Setup the flutter environment.
-      - uses: actions/cache@v2
-        with:
-          path: ${{ runner.tool_cache }}/flutter
-          key: flutter-2.8.1-stable
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '2.10.0' # 'dev', 'alpha', default to: 'stable'

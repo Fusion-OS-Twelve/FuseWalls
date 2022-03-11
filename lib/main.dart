@@ -41,12 +41,16 @@ class MyApp extends StatelessWidget {
         initialRoute: Routes.MENU,
         theme: m3Light == null
             ? ThemeData(
+                dialogBackgroundColor:
+                    ThemeData.light().copyWith().colorScheme.background,
                 colorScheme: ThemeData.light().copyWith().colorScheme,
               )
             : ThemeData(colorScheme: m3Light),
         darkTheme: m3Dark == null
             ? ThemeData(
                 colorScheme: ThemeData.dark().copyWith().colorScheme,
+                dialogBackgroundColor:
+                    ThemeData.dark().copyWith().colorScheme.background,
               )
             : ThemeData(colorScheme: m3Dark),
         themeMode: getThemeMode(),

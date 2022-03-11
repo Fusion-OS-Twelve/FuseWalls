@@ -4,6 +4,7 @@ import 'package:fuse_walls/app/data/providers/theme_provider.dart';
 import 'package:fuse_walls/app/data/providers/wall_provider.dart';
 import 'package:fuse_walls/app/data/services/theme_services.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 Widget changeThemeWidget(context) {
   return GestureDetector(
@@ -30,7 +31,32 @@ Widget changeThemeWidget(context) {
                 BottomSheetListTile(
                     title: "About",
                     onTap: () {
-                      showAboutDialog(context: context);
+                      showAboutDialog(context: context, children: [
+                        ListTile(
+                          title: const Text("Lead : Sakthivel Nadar"),
+                          onTap: () async {
+                            await launch("https://t.me/SakthivelNadar");
+                          },
+                        ),
+                        ListTile(
+                          title: const Text("App Dev : Naufal Wiwit"),
+                          onTap: () async {
+                            await launch("https://t.me/nauFOSS");
+                          },
+                        ),
+                        ListTile(
+                          title: const Text("Fusion-OS Discussions"),
+                          onTap: () async {
+                            await launch("https://t.me/fusionoschat");
+                          },
+                        ),
+                        ListTile(
+                          title: const Text("Fusion-OS Channel"),
+                          onTap: () async {
+                            await launch("https://t.me/fusionos");
+                          },
+                        )
+                      ]);
                     }),
                 Text(
                   allWallpapers["date"],
