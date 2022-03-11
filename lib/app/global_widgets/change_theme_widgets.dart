@@ -45,13 +45,15 @@ Widget changeThemeWidget(context) {
                           },
                         ),
                         ListTile(
-                          title: const Text("Anime Wallpapers : Hakucho Designs"),
+                          title:
+                              const Text("Anime Wallpapers : Hakucho Designs"),
                           onTap: () async {
                             await launch("https://t.me/HakuchoDesign");
                           },
                         ),
                         ListTile(
-                          title: const Text("Liquid Wallpapers : Vaisakh Murali"),
+                          title:
+                              const Text("Liquid Wallpapers : Vaisakh Murali"),
                           onTap: () async {
                             await launch("https://t.me/mvaisakh");
                           },
