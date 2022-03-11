@@ -45,6 +45,24 @@ Widget changeThemeWidget(context) {
                           },
                         ),
                         ListTile(
+                          title: const Text("Anime Wallpapers : Hakucho Designs"),
+                          onTap: () async {
+                            await launch("https://t.me/HakuchoDesign");
+                          },
+                        ),
+                        ListTile(
+                          title: const Text("Liquid Wallpapers : Vaisakh Murali"),
+                          onTap: () async {
+                            await launch("https://t.me/mvaisakh");
+                          },
+                        ),
+                        ListTile(
+                          title: const Text("Material Wallpapers : AmaanCG"),
+                          onTap: () async {
+                            await launch("https://t.me/wallfever");
+                          },
+                        ),
+                        ListTile(
                           title: const Text("Fusion-OS Discussions"),
                           onTap: () async {
                             await launch("https://t.me/fusionoschat");
