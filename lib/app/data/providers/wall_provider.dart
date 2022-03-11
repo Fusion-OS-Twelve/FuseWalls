@@ -5,9 +5,11 @@ import 'package:dio_cache_interceptor_hive_store/dio_cache_interceptor_hive_stor
 import 'package:fuse_walls/app/data/models/wall_model.dart';
 import 'package:path_provider/path_provider.dart';
 
-Map allWallpapers = {"categories": <Map>[]};
+Map allWallpapers = {};
 
 Future<void> getAllWallpapers() async {
+  allWallpapers.clear();
+  allWallpapers = {"categories": <Map>[]};
   var docDir = await getApplicationDocumentsDirectory();
   var client = Dio();
   final options = CacheOptions(
