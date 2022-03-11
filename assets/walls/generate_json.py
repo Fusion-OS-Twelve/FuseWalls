@@ -18,12 +18,12 @@ for folderName in sub_folders:
         "categoryName" : folderName,
         "paths" : [],
     }
-    
+
     for filename in sorted((glob.glob(f"{folderName}/*.[jp]*")), reverse= True, key = lambda x: (len (x), x)):
         print(filename)
         originalPath =  filename.replace(ntpath.sep, posixpath.sep)
         compressedPath = "{0}/thumb/{1}".format(folderName, os.path.split(originalPath)[-1])
-        tempData["paths"].append({"original" : originalPath, "compressed" : compressedPath, "new": False})
+        tempData["paths"].append({"original" : originalPath, "compressed" : compressedPath, "isNew": False})
     data[f"{folderName}"] = tempData
     data["categories"].append({"name" : folderName, "thumb" : f"category_thumb/{folderName}.png",})
 json.dump(data, open("wallpapers.json", "w"))
